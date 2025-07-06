@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Virtual Pet - Web Version</title>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <style>
+        body {
+            background-image: url('garden.png');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        #pet {
+            width: 150px;
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+            margin: 50px auto;
+            border-radius: 50%;
+            border: 3px solid black;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        h2, p {
+            color: white;
+            text-shadow: 1px 1px 3px black;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Virtual Pet</h2>
+<div id="pet"></div>
+<p id="mood">Mood: Happy</p>
+<p id="hunger">Hunger Level: 0/5</p>
+<p>
+    <button id="playBtn">Play with Pet</button>
+    <button id="feedBtn">Feed Pet</button>
+</p>
+
+<py-script>
+mood = "Happy"
+hunger = 0
+max_hunger = 5
+
+from js import document
+
+pet = document.getElementById("pet")
+mood_text = document.getElementById("mood")
+hunger_text = document.getElementById("hunger")
+play_btn = document.getElementById("playBtn")
+feed_btn = document.getElementById("feedBtn")
+
+pet.style.backgroundImage = "url('dog.png')"
+
+def update_display():
+    mood_text.innerText = f"Mood: {mood}"
+    hunger_text.innerText = f"Hunger Level: {hunger}/{max_hunger}"
+    if mood == "Happy":
+        pet.style.borderColor = "green"
+    elif mood == "Excited":
+        pet.style.borderColor = "blue"
+    else:
+        pet.style.borderColor = "red"
+
+def play_with_pet(event):
+    global hunger, mood
+    hunger += 1
+    if hunger >= max_hunger:
+        mood = "Hungry"
+    else:
+        mood = "Excited"
+    update_display()
+
+def feed_pet(event):
+    global hunger, mood
+    hunger = 0
+    mood = "Happy"
+    update_display()
+
+play_btn.addEventListener("click", play_with_pet)
+feed_btn.addEventListener("click", feed_pet)
+
+update_display()
+</py-script>
+
+</body>
+</html>
